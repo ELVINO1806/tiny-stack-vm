@@ -1,5 +1,7 @@
+
 import {readFileSync,writeFileSync,mkdirSync} from "node:fs";
-const B=process.env.MAKEFUN_INPUT_DIR||"/input",D=process.env.MAKEFUN_OUTPUT_DIR||"/output";
+const B=process.env.MAKEFUN_INPUT_DIR||"/input";
+const D=process.env.MAKEFUN_OUTPUT_DIR||"/output";
 for(let k=1;k<=40;k++){
 const id="i"+String(k).padStart(3,"0");
 let pr:Buffer;try{pr=readFileSync(B+"/"+id+"/program.bin")}catch{continue}
@@ -15,8 +17,8 @@ const il=op==1?1:op==2?4:op>=48&&op<=51?2:0;
 if(pc+1+il>pr.length){ex=9;break}
 st++;let j=0;
 switch(op){
-case 0:break run;
-case 1:if(need(0,1))break run;{const v=pr[pc+1];s[sp++]=v>127?v-256:v}break;
+case 0:ex=0;break run;
+case 1:if(need(0,1))break run;{const v=pr[pc+1];s[sp++]=v<128?v:v-256}break;
 case 2:if(need(0,1))break run;s[sp++]=pr[pc+1]|pr[pc+2]<<8|pr[pc+3]<<16|pr[pc+4]<<24;break;
 case 3:if(need(1,0))break run;sp--;break;
 case 4:if(need(1,2))break run;s[sp]=s[sp-1];sp++;break;
